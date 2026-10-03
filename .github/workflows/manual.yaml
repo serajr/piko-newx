@@ -26,7 +26,7 @@ jobs:
       - name: Set up java
         uses: actions/setup-java@v4
         with:
-          distribution: 'zulu' # See 'Supported distributions' for available options
+          distribution: 'zulu'
           java-version: '21'
 
       - name: Set up Gradle
@@ -40,13 +40,6 @@ jobs:
 
       - name: Install dependencies
         run: uv sync --frozen
-
-      - name: Import GPG key
-        uses: crazy-max/ghaction-import-gpg@v7
-        with:
-          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
-          passphrase: ${{ secrets.GPG_PASSPHRASE }}
-          fingerprint: ${{ vars.GPG_FINGERPRINT }}
 
       - name: Generate release version
         id: release_version
@@ -72,7 +65,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GRADLE_OPTS: -Dorg.gradle.caching=true
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         run: |
           mkdir -p bins
           uv run main.py \
@@ -89,7 +81,7 @@ jobs:
           set -euo pipefail
           TAG="${{ steps.release_version.outputs.new_version }}"
           git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.email "github-actions[bot]@://github.com"
           git add patches-bundle.json CHANGELOG.md
           if git diff --cached --quiet; then
             echo "no release metadata changes"
