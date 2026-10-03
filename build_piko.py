@@ -6,7 +6,7 @@ import tempfile
 from dataclasses import dataclass
 from pathlib import Path
 
-PIKO_REPO = "crimera/piko"
+PIKO_REPO = "serajr/piko"
 PIKO_REPOSITORY = f"https://github.com/{PIKO_REPO}.git"
 PIKO_BRANCH = "x-lite"
 XLITE_CONSTANTS = (
