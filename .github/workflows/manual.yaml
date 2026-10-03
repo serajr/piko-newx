@@ -65,7 +65,7 @@ jobs:
         id: release_version
         run: |
           touch /tmp/release-changelog-output
-          echo "new_version=3.49.2" >> "$GITHUB_OUTPUT"
+          echo "new_version=v3.49.2" >> "$GITHUB_OUTPUT"
           echo "semantic_bump=true" >> "$GITHUB_OUTPUT"
 
       - name: Build and publish release
