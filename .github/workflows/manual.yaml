@@ -41,25 +41,32 @@ jobs:
       - name: Install dependencies
         run: uv sync --frozen
 
+      # - name: Generate release version
+      #   id: release_version
+      #   env:
+      #     FORCE_PATCH: "true"
+      #   run: |
+      #     set -euo pipefail
+      #     chmod +x .github/scripts/generate-changelog.sh
+      #     .github/scripts/generate-changelog.sh \
+      #       2>/tmp/release-version-output \
+      #       >/tmp/release-changelog-output
+      # 
+      #     cat /tmp/release-version-output
+      #     NEW_VERSION=$(grep -E '^v[0-9]+\.[0-9]+\.[0-9]+' /tmp/release-version-output | tail -n1)
+      #     SEMANTIC_BUMP=$(grep '^semantic_bump=' /tmp/release-version-output | tail -n1 | cut -d= -f2)
+      # 
+      #     test -n "$NEW_VERSION"
+      #     test -n "$SEMANTIC_BUMP"
+      #     echo "new_version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
+      #     echo "semantic_bump=$SEMANTIC_BUMP" >> "$GITHUB_OUTPUT"
+
       - name: Generate release version
         id: release_version
-        env:
-          FORCE_PATCH: "true"
         run: |
-          set -euo pipefail
-          chmod +x .github/scripts/generate-changelog.sh
-          .github/scripts/generate-changelog.sh \
-            2>/tmp/release-version-output \
-            >/tmp/release-changelog-output
-
-          cat /tmp/release-version-output
-          NEW_VERSION=$(grep -E '^v[0-9]+\.[0-9]+\.[0-9]+' /tmp/release-version-output | tail -n1)
-          SEMANTIC_BUMP=$(grep '^semantic_bump=' /tmp/release-version-output | tail -n1 | cut -d= -f2)
-
-          test -n "$NEW_VERSION"
-          test -n "$SEMANTIC_BUMP"
-          echo "new_version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
-          echo "semantic_bump=$SEMANTIC_BUMP" >> "$GITHUB_OUTPUT"
+          touch /tmp/release-changelog-output
+          echo "new_version=3.49.2" >> "$GITHUB_OUTPUT"
+          echo "semantic_bump=true" >> "$GITHUB_OUTPUT"
 
       - name: Build and publish release
         env:
